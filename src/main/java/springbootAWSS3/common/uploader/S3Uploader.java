@@ -1,13 +1,15 @@
-package springbootAWSS3.uploader;
+package springbootAWSS3.common.uploader;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import springbootAWSS3.common.util.FileUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,8 +34,13 @@ public class S3Uploader implements Uploader{
         return upload(uploadFile, dirName);
     }
 
+    @Override
+    public void delete(String key) {
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, key));
+    }
+
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String fileName = dirName + "/" + FileUtil.getRandomFileName(uploadFile.getName());
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
