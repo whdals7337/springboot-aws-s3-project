@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: [발급받은 AMI ACCESS KEY]
+      secretKey: [발급받은 AMI SECRET KEY]
+    s3:
+      bucket: [생성한 버킷]
+    region:
+      static: [버킷의 리전]
+    stack:
+      auto: false

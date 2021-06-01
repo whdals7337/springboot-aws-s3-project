@@ -1,0 +1,9 @@
+spring:
+  #profiles
+  profiles:
+    include: S3
+
+    #console color
+  output:
+    ansi:
+      enable: ALWAYS
