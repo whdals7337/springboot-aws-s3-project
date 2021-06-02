@@ -27,7 +27,8 @@ public class FileInfoService {
         String fileUrl ="";
         try {
             fileUrl = uploader.upload(file, "testImage");
-            FileInfo fileInfo = new FileInfo(FileUtil.cutFileName(file.getOriginalFilename(), 500), fileUrl);
+            FileInfo fileInfo = new FileInfo(
+                    FileUtil.cutFileName(file.getOriginalFilename(), 500), fileUrl);
             return fileInfoRepository.save(fileInfo);
 
         } catch (IOException ie) {
@@ -43,7 +44,8 @@ public class FileInfoService {
 
     @Transactional
     public Long delete(@PathVariable("id") Long id) {
-        FileInfo fileInfo = fileInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("존재 하지 않는 파일"));
+        FileInfo fileInfo = fileInfoRepository
+                .findById(id).orElseThrow(() -> new RuntimeException("존재 하지 않는 파일"));
         fileInfoRepository.deleteById(id);
         uploader.delete(fileInfo.S3key());
         return id;
